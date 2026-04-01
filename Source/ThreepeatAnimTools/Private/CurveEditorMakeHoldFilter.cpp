@@ -88,7 +88,7 @@ void UCurveEditorMakeHoldFilter::ApplyFilter_Impl(TSharedRef<FCurveEditor> InCur
 			SelectedKeyPositions.SetNum(KeyHandles.Num());
 			Curve->GetKeyPositions(KeyHandles, SelectedKeyPositions);
 
-			float holdValue = 
+			double holdValue =
 						bHoldOnLast ?
 							SelectedKeyPositions[KeyHandles.Num() - 1].OutputValue :
 							SelectedKeyPositions[0].OutputValue;

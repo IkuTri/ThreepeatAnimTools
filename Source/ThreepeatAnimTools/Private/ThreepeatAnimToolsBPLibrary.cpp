@@ -120,7 +120,13 @@ void GetTimeDilationFloatChannels(ISequencer* Sequencer, TArray<TSharedPtr<FMovi
 		return;
 	}
 
-	UMovieScene* MovieScene = Sequencer->GetFocusedMovieSceneSequence()->GetMovieScene();
+	UMovieSceneSequence* FocusedSeq = Sequencer->GetFocusedMovieSceneSequence();
+	if (!FocusedSeq)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No focused MovieSceneSequence"));
+		return;
+	}
+	UMovieScene* MovieScene = FocusedSeq->GetMovieScene();
 	if (!MovieScene)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Invalid MovieScene"));
@@ -175,6 +181,7 @@ float UThreepeatAnimToolsBPLibrary::ApplyTimeDilationToSelection()
 		if (AssetEditor)
 		{
 			ILevelSequenceEditorToolkit* LevelSequenceEditor = static_cast<ILevelSequenceEditorToolkit*>(AssetEditor);
+			if (!LevelSequenceEditor) { continue; }
 			TSharedPtr<ISequencer> Sequencer = LevelSequenceEditor->GetSequencer();
 
 			if (Sequencer.IsValid())
@@ -211,6 +218,7 @@ void ExecuteFilter(UCurveEditorFilterBase* filter)
 		if (AssetEditor)
 		{
 			ILevelSequenceEditorToolkit* LevelSequenceEditor = static_cast<ILevelSequenceEditorToolkit*>(AssetEditor);
+			if (!LevelSequenceEditor) { continue; }
 			TSharedPtr<ISequencer> Sequencer = LevelSequenceEditor->GetSequencer();
 
 			if (Sequencer.IsValid())
@@ -218,7 +226,7 @@ void ExecuteFilter(UCurveEditorFilterBase* filter)
 				// Now you have the ISequencer instance, and you can manipulate it as needed
 				const TSharedPtr<UE::Sequencer::FSequencerEditorViewModel> SequencerViewModel = Sequencer->GetViewModel(); //Sequencer.Pin()->GetViewModel();
 				const UE::Sequencer::FCurveEditorExtension* CurveEditorExtension = SequencerViewModel->CastDynamic<UE::Sequencer::FCurveEditorExtension>();
-				check(CurveEditorExtension);
+				if (!CurveEditorExtension) { continue; }
 				TSharedPtr<FCurveEditor> CurveEditor = CurveEditorExtension->GetCurveEditor();
 				//UE_LOG(LogTemp, Warning, TEXT("Actually got a curve editor!"));
 
@@ -323,6 +331,7 @@ void UThreepeatAnimToolsBPLibrary::ThreepeatScrollSequencerToTopOrBottom(bool bS
 		if (AssetEditor)
 		{
 			ILevelSequenceEditorToolkit* LevelSequenceEditor = static_cast<ILevelSequenceEditorToolkit*>(AssetEditor);
+			if (!LevelSequenceEditor) { continue; }
 			TSharedPtr<ISequencer> Sequencer = LevelSequenceEditor->GetSequencer();
 
 			if (Sequencer.IsValid())

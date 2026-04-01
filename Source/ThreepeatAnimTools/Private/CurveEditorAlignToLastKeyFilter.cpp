@@ -137,11 +137,11 @@ void UCurveEditorAlignToLastKeyFilter::ApplyFilter_Impl(TSharedRef<FCurveEditor>
 
 			/*float LastKeyVal = SelectedKeyPositions[KeyHandles.Num() - 1].OutputValue;
 			float SecondToLastKeyVal = SelectedKeyPositions[KeyHandles.Num() - 2].OutputValue;*/
-			float LastKeyVal = SelectedKeyPositions[lastKeyIndex].OutputValue;
-			float SecondToLastKeyVal = SelectedKeyPositions[secondOutIndex].OutputValue;
+			double LastKeyVal = SelectedKeyPositions[lastKeyIndex].OutputValue;
+			double SecondToLastKeyVal = SelectedKeyPositions[secondOutIndex].OutputValue;
 
 
-			float diffToAdd = LastKeyVal - SecondToLastKeyVal;
+			double diffToAdd = LastKeyVal - SecondToLastKeyVal;
 
 			UE_LOG(LogTemp, Warning, TEXT("Curves[%s]: secondToLast( %f ), last( %f )"), *(Curve->GetIntentionName()), SecondToLastKeyVal, LastKeyVal);
 
